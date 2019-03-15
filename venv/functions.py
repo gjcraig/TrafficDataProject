@@ -1,3 +1,23 @@
+def df(file):
+    """Return a csv file as a 2d array"""
+    data_list = []
+    with open(file, encoding="UTF-8") as f:
+        f.readline()  # skip header line
+        while True:
+            line = f.readline()
+            cols = [str(s) for s in line.split(',')]
+            if len(cols) == 25:
+                data_list.append(cols)
+            if not line:
+                break
+    return data_list
+
+
+def head_filter(header):
+    """ Return a list of list for a filter for one header"""
+    return 0
+
+
 def date_filter(date1, date2):
     """Return the number of entries between two dates; inclusive"""
     # TODO add error checking on input
@@ -19,6 +39,7 @@ def date_filter(date1, date2):
             if not line:
                 break
     return count
+
 
 def police_force():
     """Return the count for each police count"""
@@ -154,7 +175,9 @@ def police_force():
                 break
     return force
 
+
 # ^^ NOT WORKING
+
 
 def severity(level):
     """Return the number of entries for given severity"""
@@ -172,6 +195,7 @@ def severity(level):
                 break
     return count
 
+
 def number_of_vehicles(number):
     """Return count of accidents involeing a specific number of vehicles"""
     count = 0
@@ -186,6 +210,7 @@ def number_of_vehicles(number):
             if not line:
                 break
     return count
+
 
 def number_of_casualties(number):
     """Return count of accidents involving a specific number of casualties"""
@@ -202,6 +227,7 @@ def number_of_casualties(number):
                 break
     return count
 
+
 def road_type(type):
     """Return count of accidents involving a specific road type"""
     count = 0
@@ -216,6 +242,7 @@ def road_type(type):
             if not line:
                 break
     return count
+
 
 def light_condition(con):
     """Return count of accidents involving a specific light level"""
@@ -232,6 +259,7 @@ def light_condition(con):
                 break
     return count
 
+
 def weather_condition(con):
     """Return count of accidents involving a specific weather condition"""
     count = 0
@@ -246,6 +274,7 @@ def weather_condition(con):
             if not line:
                 break
     return count
+
 
 def road_condition(con):
     """Return count of accidents involving a specific road condition"""
@@ -262,6 +291,7 @@ def road_condition(con):
                 break
     return count
 
+
 def speed_limits():
     """Return dictionary of number of accidents at different speed limits"""
     speeds = {}
@@ -277,7 +307,8 @@ def speed_limits():
 
     return speeds
 
-def day_of_week(day = -1):
+
+def day_of_week(day=-1):
     """Return dictionary of number of accidents at different times or count for specific day"""
     days = {}
     with open("Road_Safety_Data.csv", encoding="UTF-8") as f:
@@ -304,6 +335,9 @@ def day_of_week(day = -1):
                     break
             return count
 
+
+print(df("Road_Safety_Data.csv"))
+
 # Junction_Detail
 # Junction_Control
 # nd_Road_Class
@@ -315,3 +349,18 @@ def day_of_week(day = -1):
 # st_Road_Class
 # st_Road_Number
 
+
+def mean():
+    return 0
+
+
+def sd():
+    return 0
+
+
+def student():
+    return 0
+
+
+def regression():
+    return 0
