@@ -30,18 +30,27 @@ def var(a):
 def svar(a):
     """Return the variance of a sample"""
     m = mean(a)
-    return sum((i - m) ** 2 for i in a) / (len(a)-1)
+    return float(sum((i - m) ** 2 for i in a) / (len(a)-1))
 
 
 def student_two(x, y, sample=0):
     """Return a two-sample t-test for unpaired data"""
     # test statistic
     if sample == 0:
-        t = (mean(x) - mean(y)) / (math.sqrt((var(x)/len(x))+(var(y)/len(y))))
+        t = (mean(x) - mean(y)) / (float((var(x)/len(x))+(var(y)/len(y)))**0.5)
     else:
-        t = (mean(x) - mean(y)) / (math.sqrt((svar(x)/len(x))+(svar(y)/len(y))))
-    # critical value
-    return print("Test statistic:  T = ", t)
+        t = (mean(x) - mean(y)) / (float((svar(x)/len(x))+(svar(y)/len(y)))**0.5)
+    # degrees of freedom
+    if sample == 0:  # sample or population variance
+        s1 = var(x)
+        s2 = var(y)
+    else:
+        s1 = svar(x)
+        s2 = svar(y)
+    n1 = len(x)
+    n2 = len(y)
+    degf = (((s1/n1)+(s2/n2))**2) / (((s1/n1)**2) / (n1 - 1) + ((s2/n2)**2) / (n2 - 1))
+    return print("Test statistic:  T = ", t, "\nd.f = ", int(degf))
 
 
 def regression():
@@ -49,6 +58,15 @@ def regression():
 
 
 def anova_one():
+    #  Calculate the mean within each group
+
+    # Calculate the overall mean
+
+    # Calculate the "between-group" sum of squared differences
+
+    # Calculate the "within-group" sum of squares.
+
+    # F-ratio
     return 0
 
 
