@@ -13,12 +13,12 @@ data = df("Road_Safety_Data.csv")
 # Bar chart
 
 x = ['Fatal', 'Serious', 'Slight']
-counts = [severity(1), severity(2), severity(3)]
+counts = [header_count('Accident_Severity', 1), header_count('Accident_Severity', 2), header_count('Accident_Severity', 3)]
 x_pos = [i for i, _ in enumerate(x)]
 plt.bar(x_pos, counts, color='green')
 plt.title("Number of Accidents at each Severity Level")
 plt.xticks(x_pos, x)
-#  plt.show()
+# plt.show()
 
 # example 2 sample t-test using known values
 A = [3.04, 1.71, 3.30, 2.88, 2.11, 2.60, 2.92, 3.60, 2.28, 2.82, 3.03, 3.13, 2.86, 3.49, 3.11, 2.13, 3.27]

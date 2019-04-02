@@ -50,29 +50,81 @@ def student_two(x, y, sample=0):
     n1 = len(x)
     n2 = len(y)
     degf = (((s1/n1)+(s2/n2))**2) / (((s1/n1)**2) / (n1 - 1) + ((s2/n2)**2) / (n2 - 1))
-    return print("Test statistic:  T = ", t, "\nd.f = ", int(degf))
+    print("Test statistic:  T = ", t, "\nd.f = ", int(degf))
 
 
-def regression():
-    return 0
+def sum_squares(a):
+    return sum(i**2 for i in a)
 
 
-def anova_one():
+def anova_one(*args):
+    # n groups each in a list
+    args = [arg for arg in args]
+    n_groups = len(args)
+    flat = [num for sublist in args for num in sublist]
+    N = len(flat)
+
     #  Calculate the mean within each group
+    group_means = [mean(i) for i in args]
 
-    # Calculate the overall mean
+    #  Calculate the overall mean
+    overall_mean = mean(flat)
 
     # Calculate the "between-group" sum of squared differences
+    between_ss = 0
+    for i in range(n_groups):
+        between_ss += len(args[i]) * ((group_means[i] - overall_mean)**2)
+    between_freedom = n_groups - 1
+    between_mean_square = between_ss / between_freedom
+
+    # center data in each group
+    for i in range(n_groups):
+        args[i][:] = [x - group_means[i] for x in args[i]]
 
     # Calculate the "within-group" sum of squares.
-
+    flat_center = [num for sublist in args for num in sublist]
+    within_ss = sum_squares(flat_center)
+    within_freedom = sum(len(args[i]) - 1 for i in args)
     # F-ratio
-    return 0
+    print(within_freedom)
 
 
-def head_filter(header):
+def head_filter(header, data, file):
     """ Return a list of list for a filter for one header"""
-    return 0
+    data_list = []
+    with open(file, encoding="UTF-8") as f:
+        head = [str(s) for s in f.readline().split(',')]
+        for i in range(len(head)):
+            if head[i] == header:
+                data_list = [row[i] for row in data]
+                break
+        else:
+            print("Header not found")
+    return data_list
+
+
+def header_count(header, filter):
+    """Return the number of entries for given filter"""
+    # TODO add error checking on input
+    count = 0
+    with open("Road_Safety_Data.csv", encoding="UTF-8") as f:
+        headers = [str(s) for s in f.readline().split(',')]
+        for i in range(len(headers)):
+            if headers[i] == header:
+                j = i
+                break
+        else:
+            print('Header not found')
+            return
+        while True:
+            line = f.readline()
+            cols = [str(s) for s in line.split(',')]
+            if len(cols) == 25:
+                if int(cols[j]) == filter:
+                    count += 1
+            if not line:
+                break
+    return count
 
 
 def date_filter(date1, date2):
@@ -98,169 +150,10 @@ def date_filter(date1, date2):
     return count
 
 
-def severity(level):
-    """Return the number of entries for given severity"""
-    # TODO add error checking on input
-    count = 0
-    with open("Road_Safety_Data.csv", encoding="UTF-8") as f:
-        f.readline()  # skip header line
-        while True:
-            line = f.readline()
-            cols = [str(s) for s in line.split(',')]
-            if len(cols) == 25:
-                if int(cols[5]) == level:
-                    count += 1
-            if not line:
-                break
-    return count
+a = [6, 8, 4, 5, 3, 4]
+b = [8, 12, 9, 11, 6, 8]
+c = [13, 9, 11, 8, 7, 12]
 
 
-def number_of_vehicles(number):
-    """Return count of accidents involeing a specific number of vehicles"""
-    count = 0
-    with open("Road_Safety_Data.csv", encoding="UTF-8") as f:
-        f.readline()  # skip header line
-        while True:
-            line = f.readline()
-            cols = [str(s) for s in line.split(',')]
-            if len(cols) == 25:
-                if int(cols[6]) == number:
-                    count += 1
-            if not line:
-                break
-    return count
+anova_one(a, b, c)
 
-
-def number_of_casualties(number):
-    """Return count of accidents involving a specific number of casualties"""
-    count = 0
-    with open("Road_Safety_Data.csv", encoding="UTF-8") as f:
-        f.readline()  # skip header line
-        while True:
-            line = f.readline()
-            cols = [str(s) for s in line.split(',')]
-            if len(cols) == 25:
-                if int(cols[7]) == number:
-                    count += 1
-            if not line:
-                break
-    return count
-
-
-def road_type(type):
-    """Return count of accidents involving a specific road type"""
-    count = 0
-    with open("Road_Safety_Data.csv", encoding="UTF-8") as f:
-        f.readline()  # skip header line
-        while True:
-            line = f.readline()
-            cols = [str(s) for s in line.split(',')]
-            if len(cols) == 25:
-                if int(cols[12]) == type:
-                    count += 1
-            if not line:
-                break
-    return count
-
-
-def light_condition(con):
-    """Return count of accidents involving a specific light level"""
-    count = 0
-    with open("Road_Safety_Data.csv", encoding="UTF-8") as f:
-        f.readline()  # skip header line
-        while True:
-            line = f.readline()
-            cols = [str(s) for s in line.split(',')]
-            if len(cols) == 25:
-                if int(cols[20]) == con:
-                    count += 1
-            if not line:
-                break
-    return count
-
-
-def weather_condition(con):
-    """Return count of accidents involving a specific weather condition"""
-    count = 0
-    with open("Road_Safety_Data.csv", encoding="UTF-8") as f:
-        f.readline()  # skip header line
-        while True:
-            line = f.readline()
-            cols = [str(s) for s in line.split(',')]
-            if len(cols) == 25:
-                if int(cols[21]) == con:
-                    count += 1
-            if not line:
-                break
-    return count
-
-
-def road_condition(con):
-    """Return count of accidents involving a specific road condition"""
-    count = 0
-    with open("Road_Safety_Data.csv", encoding="UTF-8") as f:
-        f.readline()  # skip header line
-        while True:
-            line = f.readline()
-            cols = [str(s) for s in line.split(',')]
-            if len(cols) == 25:
-                if int(cols[22]) == con:
-                    count += 1
-            if not line:
-                break
-    return count
-
-
-def speed_limits():
-    """Return dictionary of number of accidents at different speed limits"""
-    speeds = {}
-    with open("Road_Safety_Data.csv", encoding="UTF-8") as f:
-        f.readline()  # skip header line
-        while True:
-            line = f.readline()
-            cols = [str(s) for s in line.split(',')]
-            if len(cols) == 25:
-                speeds[cols[13]] = speeds.get(cols[13],0) +1
-            if not line:
-                break
-
-    return speeds
-
-
-def day_of_week(day=-1):
-    """Return dictionary of number of accidents at different times or count for specific day"""
-    days = {}
-    with open("Road_Safety_Data.csv", encoding="UTF-8") as f:
-        if day == -1:
-            f.readline()  # skip header line
-            while True:
-                line = f.readline()
-                cols = [str(s) for s in line.split(',')]
-                if len(cols) == 25:
-                    days[cols[9]] = days.get(cols[9],0) +1
-                if not line:
-                    break
-            return days
-        else:
-            count = 0
-            f.readline()
-            while True:
-                line = f.readline()
-                cols = [str(s) for s in line.split(',')]
-                if len(cols) == 25:
-                    if int(cols[9]) == day:
-                        count += 1
-                if not line:
-                    break
-            return count
-
-# Junction_Detail
-# Junction_Control
-# nd_Road_Class
-# nd_Road_Number
-# Pedestrian_Crossing-Human_Control
-# Pedestrian_Crossing-Physical_Facilities
-# Special_Conditions_at_Site
-# Carriageway_Hazards
-# st_Road_Class
-# st_Road_Number
