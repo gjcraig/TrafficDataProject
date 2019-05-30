@@ -50,7 +50,7 @@ def student_two(x, y, sample=0):
     n1 = len(x)
     n2 = len(y)
     degf = (((s1/n1)+(s2/n2))**2) / (((s1/n1)**2) / (n1 - 1) + ((s2/n2)**2) / (n2 - 1))
-    print("Test statistic:  T = ", t, "\nd.f = ", int(degf))
+    print("Test statistic:  t = ", t, "\nd.f = ", int(degf))
 
 
 def sum_squares(a):
@@ -109,7 +109,7 @@ def head_filter(header, data, file):
 
 def header_count(header, filter):
     """Return the number of entries for given filter"""
-    # TODO add error checking on input
+
     count = 0
     with open("Road_Safety_Data.csv", encoding="UTF-8") as f:
         headers = [str(s) for s in f.readline().split(',')]
